@@ -12,7 +12,8 @@ int main() {
     srand(time(NULL));
 
     // Randomize computer choice to 3 numbers 
-    // modulo 3 generates 3 numbers: 0 , 1, and 2
+    // rand() generates a random number
+    // Modulo 3 restricts the results to three possible results 0, 1, or 2.
     randomNumber = rand() % 3;
 
     // Switch case for computer choices
@@ -35,7 +36,10 @@ int main() {
     printf("Enter your choice (r/p/s): ");
 
     // Get and save the user choice
-    scanf(" %c", &player);
+    if (scanf(" %c", &player) != 1) { // Check if scanf failed
+        printf("Failed to read input.\n");
+        return 1;
+    }
     
     // Switch case for player choices
     switch (player) {
@@ -50,11 +54,26 @@ int main() {
             break;
         default:
             printf("Invalid choice!\n");
+            return 1; // Exit program
     }
     
     // Terminal output 
     printf("Player chose: %c\n", player);
     printf("Computer chose: %c\n", computer);
+
+    if ( // Player win condition
+        (player == 'r' && computer == 's') ||
+        (player == 'p' && computer == 'r') ||
+        (player == 's' && computer == 'p')
+    ) {
+        printf("You win!\n");
+
+    } else if (player == computer) { // Draw condition
+        printf("It's a draw!\n");
+
+    } else { // Player lose condition
+        printf("Computer wins!\n");
+    }
 
     return 0;
 }
