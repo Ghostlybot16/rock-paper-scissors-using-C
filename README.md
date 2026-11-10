@@ -1,0 +1,1 @@
+# Beginner Project - This is a repo containing code for a simple rock paper scissors game in C.
