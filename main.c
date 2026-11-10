@@ -2,22 +2,39 @@
 #include <stdlib.h>
 #include <time.h>
 
+int determine_winner(char player_choice, char computer_choice){
+    if (player_choice == computer_choice) { // Draw condition
+        return -1; 
+    }
+
+    if ( // Player win condition
+        (player_choice == 'r' && computer_choice == 's') ||
+        (player_choice == 'p' && computer_choice == 'r') ||
+        (player_choice == 's' && computer_choice == 'p')
+    ) {
+        return 1;
+    }
+
+    return 0; // Player lose condition
+}
+
 int main() {
     
     // Variable declaration
     char player;
     char computer;
-    int randomNumber;
+    int random_number;
+    int winner_result;
 
     srand(time(NULL));
 
     // Randomize computer choice to 3 numbers 
     // rand() generates a random number
     // Modulo 3 restricts the results to three possible results 0, 1, or 2.
-    randomNumber = rand() % 3;
+    random_number = rand() % 3;
 
     // Switch case for computer choices
-    switch (randomNumber) {
+    switch (random_number) {
         // 0 -> Rock | 1 -> Paper | 2 -> Scissors
         case 0:
             computer = 'r';
@@ -61,18 +78,15 @@ int main() {
     printf("Player chose: %c\n", player);
     printf("Computer chose: %c\n", computer);
 
-    if ( // Player win condition
-        (player == 'r' && computer == 's') ||
-        (player == 'p' && computer == 'r') ||
-        (player == 's' && computer == 'p')
-    ) {
-        printf("You win!\n");
+    // Call the winning logic function to check win/lose/draw condition
+    winner_result = determine_winner(player, computer);
 
-    } else if (player == computer) { // Draw condition
-        printf("It's a draw!\n");
-
-    } else { // Player lose condition
-        printf("Computer wins!\n");
+    if (winner_result == 1) {
+        printf("You Win!\n");
+    } else if (winner_result == 0) {
+        printf("Computer Wins!\n");
+    } else {
+        printf("It's a Draw!\n");
     }
 
     return 0;
