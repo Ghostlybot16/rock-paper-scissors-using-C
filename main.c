@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <ctype.h>
 
 int determine_winner(char player_choice, char computer_choice){
     if (player_choice == computer_choice) { // Draw condition
@@ -55,14 +56,23 @@ int main() {
                 break;
         }
 
-        // Terminal output
-        printf("\nEnter your choice (r/p/s): ");
+        do {
+            // Terminal output
+            printf("\nEnter your choice (r/p/s): ");
+            
+            // Get and save the user choice
+            if (scanf(" %c", &player) != 1) { // Check if scanf failed
+                printf("Failed to read input.\n");
+                return 1;
+            }
+            
+            player = tolower(player);
 
-        // Get and save the user choice
-        if (scanf(" %c", &player) != 1) { // Check if scanf failed
-            printf("Failed to read input.\n");
-            return 1;
-        }
+            if (player != 'r' && player != 'p' && player != 's') {
+                printf("Invalid choice! Try again.\n");
+            }
+
+        } while (player != 'r' && player != 'p' && player != 's');
         
         // Switch case for player choices
         switch (player) {
@@ -95,12 +105,22 @@ int main() {
             printf("--- It's a Draw! ---\n");
         }
 
-        printf("\nPlay again? (y/n): ");
+        
+        do {
+            printf("\nPlay again? (y/n): ");
 
-        if (scanf(" %c", &play_again) != 1) {
-            printf("Failed to read input.\n");
-            return 1;
-        }
+            if (scanf(" %c", &play_again) != 1) {
+                printf("Failed to read input.\n");
+                return 1;
+            }
+
+            play_again = tolower(play_again);
+            
+            if (play_again != 'y' && play_again != 'n') {
+                printf("Invalid Entry, (y/n) only\n");
+            }
+
+        } while (play_again != 'y' && play_again != 'n');
 
     } while (play_again == 'y');
     
