@@ -3,127 +3,165 @@
 #include <time.h>
 #include <ctype.h>
 
-int determine_winner(char player_choice, char computer_choice){
-    if (player_choice == computer_choice) { // Draw condition
-        return -1; 
+int determine_winner(char player_choice, char computer_choice)
+{
+    if (player_choice == computer_choice)
+    { // Draw condition
+        return -1;
     }
 
     if ( // Player win condition
         (player_choice == 'r' && computer_choice == 's') ||
         (player_choice == 'p' && computer_choice == 'r') ||
-        (player_choice == 's' && computer_choice == 'p')
-    ) {
+        (player_choice == 's' && computer_choice == 'p'))
+    {
         return 1;
     }
 
     return 0; // Player lose condition
 }
 
-int main() {
-    
+int main()
+{
+
     // Variable declaration
     char player;
     char computer;
     int random_number;
     int winner_result;
     char play_again;
+    int player_wins;
+    int computer_wins;
+    int draws;
+    int total_rounds;
 
     srand(time(NULL));
 
-    // Welcome message 
+    // Initializing counter variables to 0
+    player_wins = 0;
+    computer_wins = 0;
+    draws = 0;
+    total_rounds = 0;
+
+    // Welcome message
     printf("Welcome to Rock Paper Scissors!\n");
     printf("Let's play a game!\n");
 
     // Run the game for at least one round
     // Then ask the user if they want to continue playing future rounds
-    do {
-        // Randomize computer choice to 3 numbers 
+    do
+    {
+        // Randomize computer choice to 3 numbers
         // rand() generates a random number
         // Modulo 3 restricts the results to three possible results 0, 1, or 2.
         random_number = rand() % 3;
 
         // Switch case for computer choices
-        switch (random_number) {
-            // 0 -> Rock | 1 -> Paper | 2 -> Scissors
-            case 0:
-                computer = 'r';
-                break;
-            case 1:
-                computer = 'p';
-                break;
-            case 2:
-                computer = 's';
-                break;
+        switch (random_number)
+        {
+        // 0 -> Rock | 1 -> Paper | 2 -> Scissors
+        case 0:
+            computer = 'r';
+            break;
+        case 1:
+            computer = 'p';
+            break;
+        case 2:
+            computer = 's';
+            break;
         }
 
-        do {
+        do
+        {
             // Terminal output
             printf("\nEnter your choice (r/p/s): ");
-            
+
             // Get and save the user choice
-            if (scanf(" %c", &player) != 1) { // Check if scanf failed
+            if (scanf(" %c", &player) != 1)
+            { // Check if scanf failed
                 printf("Failed to read input.\n");
                 return 1;
             }
-            
+
             player = tolower(player);
 
-            if (player != 'r' && player != 'p' && player != 's') {
+            if (player != 'r' && player != 'p' && player != 's')
+            {
                 printf("Invalid choice! Try again.\n");
             }
 
         } while (player != 'r' && player != 'p' && player != 's');
-        
+
         // Switch case for player choices
-        switch (player) {
-            case 'r':
-                printf("You chose Rock\n");
-                break;
-            case 'p':
-                printf("You chose Paper\n");
-                break;
-            case 's':
-                printf("You chose Scissors\n");
-                break;
-            default:
-                printf("Invalid choice!\n");
-                return 1; // Exit program
+        switch (player)
+        {
+        case 'r':
+            printf("You chose Rock\n");
+            break;
+        case 'p':
+            printf("You chose Paper\n");
+            break;
+        case 's':
+            printf("You chose Scissors\n");
+            break;
+        default:
+            printf("Invalid choice!\n");
+            return 1; // Exit program
         }
-        
-        // Terminal output 
+
+        // Terminal output
         printf("Player chose: %c\n", player);
         printf("Computer chose: %c\n", computer);
 
         // Call the winning logic function to check win/lose/draw condition
         winner_result = determine_winner(player, computer);
 
-        if (winner_result == 1) {
+        if (winner_result == 1)
+        {
+            player_wins++;
             printf("--- You Win! ---\n");
-        } else if (winner_result == 0) {
+        }
+        else if (winner_result == 0)
+        {
+            computer_wins++;
             printf("--- Computer Wins! ---\n");
-        } else {
+        }
+        else
+        {
+            draws++;
             printf("--- It's a Draw! ---\n");
         }
 
-        
-        do {
+        total_rounds = player_wins + computer_wins + draws;
+
+        printf("\n=== SCOREBOARD ===\n");
+        printf("Player Wins: %d\n", player_wins);
+        printf("Computer Wins: %d\n", computer_wins);
+        printf("Draws: %d\n", draws);
+        printf("Total Rounds Played: %d\n", total_rounds);
+        printf("===============\n");
+
+        do
+        {
             printf("\nPlay again? (y/n): ");
 
-            if (scanf(" %c", &play_again) != 1) {
+            if (scanf(" %c", &play_again) != 1)
+            {
                 printf("Failed to read input.\n");
                 return 1;
             }
 
             play_again = tolower(play_again);
-            
-            if (play_again != 'y' && play_again != 'n') {
+
+            if (play_again != 'y' && play_again != 'n')
+            {
                 printf("Invalid Entry, (y/n) only\n");
             }
 
         } while (play_again != 'y' && play_again != 'n');
 
     } while (play_again == 'y');
-    
+
     printf("Thanks for playing!\n");
 
     return 0;
